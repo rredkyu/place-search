@@ -1,2 +1,12 @@
-package com.kakaobank.placesearch.controller;public class PlaceSearchController {
+package com.kakaobank.placesearch.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping
+public class PlaceSearchController {
+
 }
