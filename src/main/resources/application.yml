@@ -17,6 +17,10 @@ spring:
       hibernate:
         format_sql: true
 
+kakao:
+  rest_api_key: 16d5f6a7bef175b8649df70e9249e996
+  api_url:
+    local: https://dapi.kakao.com//v2/local/search/keyword.json
 
 
 
