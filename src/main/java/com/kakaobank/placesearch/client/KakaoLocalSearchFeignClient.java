@@ -6,12 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "KakaoLocalSearchFeignClient", url = "${kakao.api_url.local}")
+import java.util.List;
+
+@FeignClient(name = "KakaoLocalSearchFeignClient", url = "${kakao.local.url}")
 public interface KakaoLocalSearchFeignClient {
 
     @GetMapping
     KakaoPlaceResponseDto call(
-            @RequestHeader("Authorization") String restAPiKey,
-            @RequestParam("keyword") String keyword);
+            @RequestHeader("Authorization") String restAPIKey,
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size,
+            @RequestParam("sort") String sort,
+            @RequestParam("query") String query
+    );
 
 }

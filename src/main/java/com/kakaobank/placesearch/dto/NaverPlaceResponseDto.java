@@ -1,6 +1,5 @@
 package com.kakaobank.placesearch.dto;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -10,8 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Getter
-public class KakaoPlaceResponseDto {
+public class NaverPlaceResponseDto {
 
-    private List<KakaoDocumentDto> documents;
-
+    private List<NaverItemDto> items;
 }
