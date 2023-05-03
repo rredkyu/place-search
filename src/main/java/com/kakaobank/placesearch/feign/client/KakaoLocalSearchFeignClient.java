@@ -1,4 +1,4 @@
-package com.kakaobank.placesearch.client;
+package com.kakaobank.placesearch.feign.client;
 
 import com.kakaobank.placesearch.dto.KakaoPlaceResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
