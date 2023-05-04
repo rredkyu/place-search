@@ -2,7 +2,9 @@ package com.kakaobank.placesearch.service.impl;
 
 import com.kakaobank.placesearch.domain.keyword.Keyword;
 import com.kakaobank.placesearch.domain.place.Place;
+import com.kakaobank.placesearch.dto.KakaoDocumentDto;
 import com.kakaobank.placesearch.dto.KakaoPlaceResponseDto;
+import com.kakaobank.placesearch.dto.NaverItemDto;
 import com.kakaobank.placesearch.dto.NaverPlaceResponseDto;
 import com.kakaobank.placesearch.dto.response.ResponseRankingDto;
 import com.kakaobank.placesearch.feign.client.KakaoLocalSearchFeignClient;
@@ -36,6 +38,7 @@ public class SearchServiceImpl implements SearchService {
     public List<Place> searchPlace(String keyword) {
         // redis 등록 필요
 
+
         KakaoPlaceResponseDto responseDto =
                 kakaoLocalSearchFeignClient.call(
                         "KakaoAK 16d5f6a7bef175b8649df70e9249e996",
@@ -53,17 +56,38 @@ public class SearchServiceImpl implements SearchService {
                         "random",
                         keyword);
 
-
         List<Place> list = new ArrayList<>();
 
-        
+        for (KakaoDocumentDto res : responseDto.getDocuments()) {
+            // 각 값에 대한 검증도 필요
+            list.add(Place.builder()
+                    .address(res.getAddressName())
+                    .title(res.getPlaceName())
+                    .roadAddress(res.getRoadAddressName())
+                    .telephone(res.getPhone())
+                    .build());
+        }
 
 
+        List<Place> origin = new ArrayList<>(list);
+        for (NaverItemDto res : naverPlaceResponseDto.getItems()) {
+            for (Place place : list) {
+                if(!res.getAddress().equals(place.getAddress()) ||
+                        !res.getRoadAddress().equals(place.getRoadAddress()) ||
+                        !res.getTelephone().equals(place.getTelephone())){
+                    origin.add(Place.builder()
+                                    .telephone(res.getTelephone())
+                                    .roadAddress(res.getRoadAddress())
+                                    .title(res.getTitle())
+                                    .address(res.getAddress())
+                            .build());
+                }
+            }
+        }
 
-        return null;
+
+        return new ArrayList<>(origin);
     }
-
-
 
 
 //    @Override
