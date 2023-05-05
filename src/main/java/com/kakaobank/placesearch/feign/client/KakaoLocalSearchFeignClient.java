@@ -15,8 +15,8 @@ public interface KakaoLocalSearchFeignClient {
     @GetMapping
     KakaoPlaceResponseDto call(
             @RequestHeader("Authorization") String restAPIKey,
-            @RequestParam("page") Integer page,
-            @RequestParam("size") Integer size,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
             @RequestParam("sort") String sort,
             @RequestParam("query") String query
     );

@@ -31,7 +31,7 @@ public class RankingServiceImpl implements RankingService {
         ZSetOperations<String, String> stringStringZSetOperations = redisTemplate.opsForZSet();
 
         Set<ZSetOperations.TypedTuple<String>> typedTuples = stringStringZSetOperations
-                .reverseRangeWithScores(KEY, 0, 10);
+                .reverseRangeWithScores(KEY, 0, 9);
 
         if (Objects.isNull(typedTuples)) {
             throw new PlaceSearchException(ResponseCode.NOT_FOUND_RANKING);

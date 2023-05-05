@@ -13,8 +13,8 @@ public interface NaverSearchFeignClient {
     NaverPlaceResponseDto call(
             @RequestHeader("X-Naver-Client-Id") String clientId,
             @RequestHeader("X-Naver-Client-Secret") String secret,
-            @RequestParam("display") Integer display,
-            @RequestParam("start") Integer start,
+            @RequestParam("start") int start,
+            @RequestParam("display") int display,
             @RequestParam("sort") String sort,
             @RequestParam("query") String query
     );

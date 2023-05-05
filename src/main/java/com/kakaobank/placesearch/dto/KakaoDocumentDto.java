@@ -1,6 +1,7 @@
 package com.kakaobank.placesearch.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kakaobank.placesearch.domain.place.Place;
 import lombok.*;
 
 @Builder
@@ -41,4 +42,13 @@ public class KakaoDocumentDto {
     private String placeUrl;
 
     private String distance;
+
+    public static Place toEntity(KakaoDocumentDto kakaoDocumentDto) {
+        return Place.builder()
+                .telephone(kakaoDocumentDto.getPhone())
+                .address(kakaoDocumentDto.getAddressName())
+                .name(kakaoDocumentDto.getPlaceName())
+                .roadAddress(kakaoDocumentDto.getRoadAddressName())
+                .build();
+    }
 }
