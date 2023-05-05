@@ -48,6 +48,7 @@ public class KakaoDocumentDto {
                 .telephone(kakaoDocumentDto.getPhone())
                 .address(kakaoDocumentDto.getAddressName())
                 .name(kakaoDocumentDto.getPlaceName())
+                .normalizedName(Place.normalized(kakaoDocumentDto.getPlaceName()))
                 .roadAddress(kakaoDocumentDto.getRoadAddressName())
                 .build();
     }

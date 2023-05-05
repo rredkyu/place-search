@@ -12,9 +12,17 @@ import java.util.Objects;
 public class Place {
 
     private String name;
+
+    private String normalizedName;
     private String telephone;
     private String address;
     private String roadAddress;
+
+    public static String normalized(String name) {
+        return name
+                .replaceAll("[\\s+]", "")
+                .replaceAll("[<b|(/b)>]", "");
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -25,6 +25,7 @@ public class NaverItemDto {
                 .telephone(naverItemDto.getTelephone())
                 .address(naverItemDto.getAddress())
                 .name(naverItemDto.getTitle())
+                .normalizedName(Place.normalized(naverItemDto.getTitle()))
                 .roadAddress(naverItemDto.getRoadAddress())
                 .build();
     }

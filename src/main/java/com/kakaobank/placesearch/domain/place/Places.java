@@ -38,37 +38,57 @@ public class Places {
         for (int k = 0; k < kakaoPlaces.size(); k++) {
             boolean insert = false;
             int n = 0;
-            for (n = 0; n < naverPlaces.size(); n++) {
-                if (kakaoPlaces.get(k).getAddress().isBlank() &&
-                        kakaoPlaces.get(k).getRoadAddress().isBlank() &&
-                        kakaoPlaces.get(k).getTelephone().isBlank()) {
-                    if (kakaoPlaces.get(k).equals(naverPlaces.get(n))) {
-                        list.add(kakaoPlaces.get(k));
-                        insert = true;
-                    }
+            for (; n < naverPlaces.size(); n++) {
+                if (isBlank(kakaoPlaces.get(k))) {
+                    insert = isInsertByPlaceTitle(kakaoPlaces.get(k), naverPlaces.get(n), list);
                 } else {
-                    if (!kakaoPlaces.get(k).getAddress().equals(naverPlaces.get(n).getAddress()) ||
-                            !kakaoPlaces.get(k).getRoadAddress().equals(naverPlaces.get(n).getRoadAddress()) ||
-                            !kakaoPlaces.get(k).getTelephone().equals(naverPlaces.get(n).getTelephone())) {
-                        list.add(kakaoPlaces.get(k));
-                        insert = true;
-                    }
+                    insert = isInsertBySamePlace(kakaoPlaces.get(k), naverPlaces.get(n), list);
                 }
             }
 
-           if (!insert) {
-               copyNaverPlaces.remove(n);
-               kakaoLeftList.add(kakaoPlaces.get(k));
-           }
+            if (!insert) {
+                copyNaverPlaces.remove(n);
+                kakaoLeftList.add(kakaoPlaces.get(k));
+            }
         }
 
-        List<Place> placeList = new ArrayList<>();
-        placeList.addAll(list);
-        placeList.addAll(kakaoLeftList);
-        placeList.addAll(copyNaverPlaces);
+        List<Place> mergePlaceList = new ArrayList<>();
+        mergePlaceList.addAll(list);
+        mergePlaceList.addAll(kakaoLeftList);
+        mergePlaceList.addAll(copyNaverPlaces);
 
-        return new Places(placeList);
+        return new Places(mergePlaceList);
 
+    }
+
+    private static boolean isInsertByPlaceTitle(Place kakao, Place naver, List<Place> list) {
+        if(kakao.getNormalizedName().equals(naver.getNormalizedName())) {
+            list.add(kakao);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean isInsertBySamePlace(Place kakao, Place naver, List<Place> list) {
+        if (isSamePlace(kakao, naver)) {
+            list.add(kakao);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean isBlank(Place place) {
+        return place.getAddress().isBlank() &&
+                place.getRoadAddress().isBlank() &&
+                place.getTelephone().isBlank();
+    }
+
+    private static boolean isSamePlace(Place kakao, Place naver) {
+        return kakao.getAddress().equals(naver.getAddress()) ||
+                kakao.getTelephone().equals(naver.getTelephone()) ||
+                kakao.getRoadAddress().equals(naver.getRoadAddress());
     }
 
     public List<Place> getPlaces() {
