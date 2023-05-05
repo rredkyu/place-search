@@ -1,14 +1,17 @@
 package com.kakaobank.placesearch.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.kakaobank.placesearch.domain.place.Place;
+import lombok.*;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class PlaceResponseDto {
+    private String title;
 
+    public static PlaceResponseDto of(Place place) {
+        return PlaceResponseDto.builder()
+                .title(place.getName())
+                .build();
+    }
 }

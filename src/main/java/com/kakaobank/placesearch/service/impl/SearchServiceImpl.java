@@ -1,23 +1,21 @@
 package com.kakaobank.placesearch.service.impl;
 
-import com.kakaobank.placesearch.domain.keyword.Keyword;
 import com.kakaobank.placesearch.domain.place.Place;
 import com.kakaobank.placesearch.dto.KakaoDocumentDto;
 import com.kakaobank.placesearch.dto.KakaoPlaceResponseDto;
 import com.kakaobank.placesearch.dto.NaverItemDto;
 import com.kakaobank.placesearch.dto.NaverPlaceResponseDto;
-import com.kakaobank.placesearch.dto.response.ResponseRankingDto;
+import com.kakaobank.placesearch.dto.response.PlaceResponseDto;
 import com.kakaobank.placesearch.feign.client.KakaoLocalSearchFeignClient;
 import com.kakaobank.placesearch.feign.client.NaverSearchFeignClient;
+import com.kakaobank.placesearch.service.RankingService;
 import com.kakaobank.placesearch.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,13 +29,13 @@ public class SearchServiceImpl implements SearchService {
 
     private final NaverSearchFeignClient naverSearchFeignClient;
 
-    private final RedisTemplate<String, Integer> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
+    private final RankingService rankingService;
 
     @Override
-    public List<Place> searchPlace(String keyword) {
-        // redis 등록 필요
-
+    public List<PlaceResponseDto> searchPlace(String keyword) {
+        rankingService.addKeyword(keyword);
 
         KakaoPlaceResponseDto responseDto =
                 kakaoLocalSearchFeignClient.call(
@@ -62,7 +60,7 @@ public class SearchServiceImpl implements SearchService {
             // 각 값에 대한 검증도 필요
             list.add(Place.builder()
                     .address(res.getAddressName())
-                    .title(res.getPlaceName())
+                    .name(res.getPlaceName())
                     .roadAddress(res.getRoadAddressName())
                     .telephone(res.getPhone())
                     .build());
@@ -72,13 +70,16 @@ public class SearchServiceImpl implements SearchService {
         List<Place> origin = new ArrayList<>(list);
         for (NaverItemDto res : naverPlaceResponseDto.getItems()) {
             for (Place place : list) {
+                // address, roadAddress, telePhone 모두 없을때
+                // 최후 이름으로 비교 필요
+
                 if(!res.getAddress().equals(place.getAddress()) ||
                         !res.getRoadAddress().equals(place.getRoadAddress()) ||
                         !res.getTelephone().equals(place.getTelephone())){
                     origin.add(Place.builder()
                                     .telephone(res.getTelephone())
                                     .roadAddress(res.getRoadAddress())
-                                    .title(res.getTitle())
+                                    .name(res.getTitle())
                                     .address(res.getAddress())
                             .build());
                 }
@@ -86,7 +87,15 @@ public class SearchServiceImpl implements SearchService {
         }
 
 
-        return new ArrayList<>(origin);
+        return createPlaceResponseDtoList(origin);
+    }
+
+    private List<PlaceResponseDto> createPlaceResponseDtoList(List<Place> places) {
+
+        return places.stream()
+                .map(PlaceResponseDto::of)
+                .collect(Collectors.toList());
+
     }
 
 
