@@ -27,8 +27,7 @@ public class SearchController {
 
     @GetMapping("/place")
     public CommonListResponse<PlaceResponseDto> searchPlace(@RequestParam @NotBlank String keyword) {
-        List<PlaceResponseDto> placeResponseDtos = searchService.s
-        earchPlace(keyword);
+        List<PlaceResponseDto> placeResponseDtos = searchService.searchPlace(keyword);
 
         return new CommonListResponse<>(placeResponseDtos);
     }
