@@ -10,7 +10,9 @@ public enum ResponseCode {
 
     NOT_FOUND_RANKING("P300", "순위가 존재 하지 않습니다."),
 
-    NOT_SUPPORTED_PROVIDER("P205", "지원하지 않는 provider입니다");
+    NOT_SUPPORTED_PROVIDER("P205", "지원하지 않는 provider입니다"),
+
+    NOT_FOUND_PLACE("P400", "존재하지 않는 장소 입니다.");
 
     private final String code;
     private final String message;

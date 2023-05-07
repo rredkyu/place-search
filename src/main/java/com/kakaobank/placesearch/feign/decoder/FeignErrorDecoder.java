@@ -1,5 +1,7 @@
 package com.kakaobank.placesearch.feign.decoder;
 
+import com.kakaobank.placesearch.exception.PlaceSearchException;
+import com.kakaobank.placesearch.exception.ResponseCode;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,10 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
         if (httpStatus == HttpStatus.NOT_FOUND) {
             log.warn("Http Status = {}", httpStatus);
+            throw new PlaceSearchException(ResponseCode.NOT_FOUND_PLACE);
+        } else if(httpStatus == HttpStatus.INTERNAL_SERVER_ERROR) {
+            log.warn("Http Status = {}", httpStatus);
+            throw new PlaceSearchException(ResponseCode.INTERNAL_SERVER_ERROR);
         }
 
 
