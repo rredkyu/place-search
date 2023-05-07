@@ -13,6 +13,7 @@ import com.kakaobank.placesearch.service.RankingService;
 import com.kakaobank.placesearch.service.SearchService;
 import com.kakaobank.placesearch.service.SearchServiceAsync;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class SearchServiceImpl implements SearchService {
 
     private final SearchServiceAsync searchServiceAsync;
 
+    @Cacheable(value = "placeList" , key = "#keyword")
     @Override
     public List<PlaceResponseDto> searchPlace(String keyword) {
         rankingService.addKeyword(keyword);
