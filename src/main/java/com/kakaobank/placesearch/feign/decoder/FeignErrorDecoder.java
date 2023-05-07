@@ -2,13 +2,14 @@ package com.kakaobank.placesearch.feign.decoder;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
+@Slf4j
 public class FeignErrorDecoder implements ErrorDecoder {
 
-    private static final Logger log = LoggerFactory.getLogger(FeignErrorDecoder.class);
     private final ErrorDecoder errorDecoder = new Default();
 
     @Override

@@ -6,6 +6,7 @@ import com.kakaobank.placesearch.dto.response.RankingResponseDto;
 import com.kakaobank.placesearch.service.RankingService;
 import com.kakaobank.placesearch.service.SearchService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/v1/search")
 @RequiredArgsConstructor

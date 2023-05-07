@@ -8,7 +8,9 @@ public enum ResponseCode {
 
     INVALID_INPUT("P200", "요청 값의 형식이 올바르지 않습니다"),
 
-    NOT_FOUND_RANKING("P300", "순위가 존재 하지 않습니다."),;
+    NOT_FOUND_RANKING("P300", "순위가 존재 하지 않습니다."),
+
+    NOT_SUPPORTED_PROVIDER("P205", "지원하지 않는 provider입니다");
 
     private final String code;
     private final String message;

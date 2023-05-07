@@ -1,5 +1,6 @@
 package com.kakaobank.placesearch.domain.place;
 
+import com.kakaobank.placesearch.specification.PlaceSearchPlatform;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Place {
 
+    private PlaceSearchPlatform provider;
     private String name;
 
     private String normalizedName;
@@ -24,16 +26,27 @@ public class Place {
                 .replaceAll("[<b|(/b)>]", "");
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Place place = (Place) o;
-        return Objects.equals(name, place.name) && Objects.equals(telephone, place.telephone) && Objects.equals(address, place.address) && Objects.equals(roadAddress, place.roadAddress);
+        return telephone.equals(place.telephone) && address.equals(place.address) && roadAddress.equals(place.roadAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, telephone, address, roadAddress);
+        return Objects.hash(telephone, address, roadAddress);
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "name='" + name + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", address='" + address + '\'' +
+                ", roadAddress='" + roadAddress + '\'' +
+                '}';
     }
 }

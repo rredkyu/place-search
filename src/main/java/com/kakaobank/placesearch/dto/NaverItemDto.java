@@ -1,6 +1,7 @@
 package com.kakaobank.placesearch.dto;
 
 import com.kakaobank.placesearch.domain.place.Place;
+import com.kakaobank.placesearch.specification.PlaceSearchPlatform;
 import lombok.*;
 
 @Builder
@@ -22,6 +23,7 @@ public class NaverItemDto {
 
     public static Place toEntity(NaverItemDto naverItemDto) {
         return Place.builder()
+                .provider(PlaceSearchPlatform.NAVER)
                 .telephone(naverItemDto.getTelephone())
                 .address(naverItemDto.getAddress())
                 .name(naverItemDto.getTitle())
