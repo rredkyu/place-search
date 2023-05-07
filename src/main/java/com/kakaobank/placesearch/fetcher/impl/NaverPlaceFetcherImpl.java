@@ -1,8 +1,7 @@
 package com.kakaobank.placesearch.fetcher.impl;
 
-;
+
 import com.kakaobank.placesearch.domain.place.Place;
-import com.kakaobank.placesearch.domain.place.Places;
 import com.kakaobank.placesearch.dto.NaverItemDto;
 import com.kakaobank.placesearch.dto.NaverPlaceResponseDto;
 import com.kakaobank.placesearch.feign.client.NaverSearchFeignClient;
@@ -10,7 +9,6 @@ import com.kakaobank.placesearch.fetcher.PlaceFetcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +16,7 @@ import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class NaverPlaceFetcherImpl implements PlaceFetcher {
 
