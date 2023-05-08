@@ -51,7 +51,7 @@ public class SearchServiceAsyncImpl implements SearchServiceAsync {
 
         List<CompletableFuture<List<Place>>> futures = Stream.of(PlaceSearchPlatform.values())
                 .map(platform -> {
-                    PlaceFetcher fetcher = FACTORY.get(platform);
+                    PlaceFetcher fetcher = placeFetcherFactory.placeFetcherFrom(platform);
                     return fetcher.fetchPlacesFor(keyword);
                 }).collect(toList());
 
